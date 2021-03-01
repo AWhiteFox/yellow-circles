@@ -1,18 +1,19 @@
 import sys
 from random import randint
 
-from PyQt5 import uic
-from PyQt5.QtGui import QPainter, QPen, QColor
+from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from ui import Ui_MainWindow
 
-class MyWidget(QMainWindow):
+
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
         self.btn.pressed.connect(self.paint)
         self.do_paint = False
-        self.color = QColor('yellow')
+        self.color = None
         self.circles = []
 
     def paintEvent(self, event):
@@ -29,6 +30,7 @@ class MyWidget(QMainWindow):
 
     def paint(self):
         self.do_paint = True
+        self.color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
         self.generate_circles()
         self.repaint()
 
